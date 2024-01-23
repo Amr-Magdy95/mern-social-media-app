@@ -1,7 +1,11 @@
 import { Schema, model } from "mongoose";
 import * as bcrypt from "bcryptjs";
 
-interface IUser {
+interface DocumentResult<T> {
+  _doc: T;
+}
+
+interface IUser extends DocumentResult<IUser> {
   firstName: string;
   lastName: string;
   email: string;
