@@ -5,6 +5,8 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
+
+import AuthRouter from "./routes/auth.route";
 import notFound from "./middleware/404.middleware";
 import errorHandler from "./middleware/errorHandling.middleware";
 
@@ -20,6 +22,8 @@ app.use(cookieParser());
 app.get("/", (req: Request, res: Response) => {
   res.json({ message: "Social Media App Entry" });
 });
+
+app.use("/api/auth", AuthRouter);
 
 // 404 and error handling
 app.all("*", notFound);
