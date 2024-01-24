@@ -1,9 +1,14 @@
+import { Routes, Route } from "react-router-dom"
+import Signup from "./features/users/pages/Signup"
+import Layout from "./app/pages/Layout"
 
 const App = () => {
   return (
-    <div>
-      <h1 className="text-8xl text-white bg-black">Hello</h1>
-    </div>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Signup />} />
+      </Route>
+    </Routes>
   )
 }
 
