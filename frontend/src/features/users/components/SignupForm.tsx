@@ -1,8 +1,8 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { instance as axios } from "../../../axios/axios";
 import { registerUser } from "../userSlice";
+import { displayToast } from "../../toast/toastSlice";
 
 export type RegisterFormTypes = {
     firstName: string,
@@ -16,10 +16,11 @@ const SignupForm = () => {
     const navigate = useNavigate();
     const onSubmit: SubmitHandler<RegisterFormTypes> = async (data) => {
         try {
-            dispatch(registerUser(data));
+            const res = await dispatch(registerUser(data)).unwrap();
+            dispatch(displayToast({ show: true, message: `User ${res.user.email} signup was successful`, success: res.success }));
             navigate("/signin");
-        } catch (err) {
-            console.log(err);
+        } catch (err: any) {
+            dispatch(displayToast({ show: true, message: err.message, success: false }));
         }
     };
     return (

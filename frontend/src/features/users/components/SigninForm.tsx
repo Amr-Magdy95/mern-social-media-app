@@ -1,22 +1,30 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 import { Link } from "react-router-dom";
+import { useAppDispatch } from "../../../app/hooks";
+import { userSignin } from "../userSlice";
+import { displayToast } from "../../toast/toastSlice";
 
-type RegisterFormTypes = {
-    firstName: string,
-    lastName: string,
+export type SigninFormTypes = {
     email: string,
     password: string
 }
 const SigninForm = () => {
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<RegisterFormTypes>();
-    const onSubmit: SubmitHandler<RegisterFormTypes> = (data) => console.log(data);
+    const dispatch = useAppDispatch();
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<SigninFormTypes>();
+    const onSubmit: SubmitHandler<SigninFormTypes> = async (data) => {
+        try {
+            const response = await dispatch(userSignin(data)).unwrap();
+            dispatch(displayToast({ show: true, message: `User ${response.email} signed in!`, success: response.success }));
+        } catch (err: any) {
+            dispatch(displayToast({ show: true, message: err.message, success: false }));
+        }
+    }
     return (
         <div className="form-container ">
             <h1 className="form-heading">Create an Account</h1>
             <form className="form" onSubmit={handleSubmit(onSubmit)}>
 
                 {/* Email  */}
-                <p className="text-red-700">{errors.lastName?.message}</p>
                 <label htmlFor="email">Email
                 </label>
                 <input
