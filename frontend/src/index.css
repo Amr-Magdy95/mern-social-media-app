@@ -25,7 +25,7 @@
   }
 
   .form-input {
-    @apply bg-slate-100 rounded-sm px-2 py-1 outline-slate-600;
+    @apply bg-slate-100 rounded-sm px-3 py-2 outline-slate-600;
   }
 
   .form-button {

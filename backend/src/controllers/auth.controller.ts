@@ -23,7 +23,7 @@ export const signup = async (req: Request, res: Response) => {
   // registering new user
   const newUser = await User.create(data);
   const { password: hashedPwd, ...rest } = newUser._doc;
-  res.status(StatusCodes.CREATED).json(rest);
+  res.status(StatusCodes.CREATED).json({ success: true, user: rest });
 };
 export const signin = async (req: Request, res: Response) => {
   let errors = validationResult(req);

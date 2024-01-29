@@ -1,20 +1,64 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../../app/store";
+import type { AppDispatch, RootState } from "../../app/store";
+import { RegisterFormTypes } from "./components/SignupForm";
+import { instance } from "../../axios/axios";
+import { displayToast } from "../toast/toastSlice";
 
-interface UserState {}
+export const registerUser = createAsyncThunk(
+  "auth/registerUser",
+  async (user: RegisterFormTypes, { dispatch }) => {
+    try {
+      const response = await instance.post(
+        "/auth/signup",
+        JSON.stringify(user),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(response.data);
+      dispatch(
+        displayToast({
+          show: true,
+          message: `User ${response.data.user.email} signup was successful!`,
+          success: response.data.success,
+        })
+      );
+    } catch (err: any) {
+      console.log(err);
+      dispatch(
+        displayToast({
+          show: true,
+          message: err.response.data.message,
+          success: err.response.data.success,
+        })
+      );
+    }
+  }
+);
 
-const initialState = {} as UserState;
+interface AuthState {
+  firstName: string;
+  lastName: string;
+  email: string;
+  _id: string;
+}
 
-export const userSlice = createSlice({
-  name: "user",
+const initialState = {} as AuthState;
+
+export const authSlice = createSlice({
+  name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    // incrementByAmount: (state, action: PayloadAction<number>)
+  },
   extraReducers: (builder) => {},
 });
 
 // export const {} = userSlice.actions;
 
-// export const selectUser = (state: RootState) => state.user.
+export const selectCurrentUser = (state: RootState) => state.auth;
 
-export default userSlice.reducer;
+export default authSlice.reducer;
