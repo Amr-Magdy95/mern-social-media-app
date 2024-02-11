@@ -56,7 +56,7 @@ const SigninForm = () => {
                 <button className="form-button">Sign In</button>
             </form>
             <hr className="my-4 font-bold" />
-            <p>Need an account?! <Link to="/register" className="text-blue-700">Signup</Link></p>
+            <p>Need an account?! <Link to="/signup" className="text-blue-700">Signup</Link></p>
         </div>
     )
 }

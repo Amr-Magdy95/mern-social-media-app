@@ -3,6 +3,7 @@ import SignupForm from "../components/SignupForm"
 const Signup = () => {
     return (
         <section className="sign-section">
+
             <SignHero />
             <SignupForm />
         </section>

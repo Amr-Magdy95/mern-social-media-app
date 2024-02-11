@@ -13,7 +13,7 @@ export const displayToast = createAsyncThunk(
     );
     setTimeout(() => {
       dispatch(toastSlice.actions.hideToast());
-    }, 3000);
+    }, 5000);
   }
 );
 
